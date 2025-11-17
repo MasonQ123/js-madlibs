@@ -5,11 +5,34 @@
  * @return none
  */
 
+var story = [];
+var storyWithSpaces = "";
+var storyString = "";
+var numberedStory = "";
+
+function main() {
+    getStory();
+    encodeStory(storyString);
+    numberedStory = subSpeech(story);
+    let replacements = showSpeechList(numberedStory);
+    alert("Now, let's rebuild your story with the new words!");
+    rebuildStory(replacements);
+    storyWithSpaces = story.join(" ");
+    showStory(string);
+    alert("Thank you for playing Mad Libs! The process is now complete.");
+}
+
  /* getStory()
   * user input is stored as a new variable, that variable is returned.
   * @param none
   * @return storyString
   */
+
+ function getStory() {
+    // storyString = prompt("Please enter a story:");
+    let storyString = "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way—in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only."
+    return storyString;
+ }
 
  /* encodeStory(storyString)
  * create a copy of storyString as a new variable, story array is equal to storyString being split by spaces
@@ -18,15 +41,37 @@
  * @param storyString
  * @return story, string
  */
-
+function encodeStory(storyString) {
+    let string = storyString;
+    story = spaceMarks(story)
+    return story, string;
+} 
  /* spaceMarks(story)
  * Splits words in the story array that contain punctuation marks, ensuring punctuation is separated from words.
  * Iterates through each word, checks for punctuation, and splits accordingly.
  * @param story
  * @return story
  */
-
- /* numberedList = subSpeech(story)
+function spaceMarks(story) {
+//     const marks = ['.','?','!',':',';',','];
+//     text = "";
+//     mark = "";
+//     for (let i = 0; i < story.length; i++) {
+//     text = story[i];
+//     mark = text.charAt(text.length - 1);
+//     if(marks.indexOf(mark) !== -1) {
+//         story.splice(i, mark)
+//         story[i] = story[i].slice(0, -1);
+//         console.Log(story[i], story[i+1]);
+//     }
+//     else{
+//         continue;
+//     }
+// }
+story = ["My", "dog", "has", "fleas","!"]
+    return story;
+}
+ /* numberedStory = subSpeech(story)
  * declare numberedStory as an empty string
  * for index being set to 0 and being less than story.length count up
  * for each word, append story[i] followed by "[" + i + "]" and a space to numberedStory
@@ -35,10 +80,21 @@
  * @return numberedStory
  */
 
-/* showSpeechList(numberedList)
-* Expects numberedList as a string where each word from the story is followed by its index in square brackets
+ numberedStory = subSpeech(story)
+
+function subSpeech(story) {
+numberedStory = "";
+for (let i = 0; i < story.length; i++) {
+    numberedStory += story[i] + "[" + i + "] ";
+}
+return numberedStory;
+}
+
+
+/* showSpeechList(numberedStory)
+* Expects numberedStory as a string where each word from the story is followed by its index in square brackets
 * set replacements as an empty array, word change as an empty variable
-* prompt numberedList and ask how many words the user wants to change
+* prompt numberedStory and ask how many words the user wants to change
 * store their input as changeCount
 * declare originalWord and speechPart
 * for index being set to 0 going to changeCount, counting up:
@@ -47,11 +103,27 @@
 * prompt what part of speech the originalWord was, this is what speechPart will be defined as
 * replacements.push(wordChange), story[wordChange] = speechPart
 * when for loop ends alert the number of words that are to be replaced in the next step.
-* @param numberedList
+* @param numberedStory
 * @return replacements
 */
 
 /* let the "Word Wizard" know that its the player's turn. */
+function showSpeechList(numberedStory) {
+    let replacements = [];
+    let wordChange = "";
+    let changeCount = prompt(numberedStory + "\nHow many words would you like to change?");
+    let originalWord = "";
+    let speechPart = "";
+    for (let i = 0; i < changeCount; i++) {
+        wordChange = prompt("What word would you like to change?" + numberedStory);
+        originalWord = story[wordChange];
+        speechPart = prompt("What part of speech is the word '" + originalWord + "'?");
+        replacements.push(wordChange);
+        story[wordChange] = speechPart;
+    }
+    alert(changeCount + " words will be replaced in the next step.");
+    return replacements;
+}
 
 /* rebuildStory(replacements)
 * alert user for words that correspond with the parts of speech, declare newWord
@@ -60,13 +132,23 @@
 * @param replacements
 * @return replacements
 */
-
+function rebuildStory(replacements) {
+    let newWord = prompt("Give me some words that correspond with the parts of speech.");
+    for (let i = 0; i < replacements.length; i++) {
+        story[replacements[i]] = newWord;
+    }
+    return replacements;
+}
 /* storyWithSpaces: join the madlibbed story array into a single string with spaces */
+
 
 /* showStory(string)
 * Displays the original and modified story to the user
 * @param string
 * @return none
 */
-
+function showStory(string) {
+    alert("This was your original story:\n\n" + string + "\n\nAnd here is your madlibbed story:\n\n" + storyWithSpaces);
+}
 /* thank user and process finished. */
+
