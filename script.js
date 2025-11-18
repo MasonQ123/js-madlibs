@@ -16,10 +16,10 @@ function main() {
     numberedStory = subSpeech(story);
     let replacements = showSpeechList(numberedStory);
     alert("Now, let's rebuild your story with the new words!");
-    rebuildStory(replacements);
-    storyWithSpaces = story.join(" ");
-    showStory(string);
-    alert("Thank you for playing Mad Libs! The process is now complete.");
+    // rebuildStory(replacements);
+    // storyWithSpaces = story.join(" ");
+    // showStory(string);
+    // alert("Thank you for playing Mad Libs! The process is now complete.");
 }
 
  /* getStory()
@@ -29,8 +29,7 @@ function main() {
   */
 
  function getStory() {
-    // storyString = prompt("Please enter a story:");
-    let storyString = "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way—in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only."
+    storyString = prompt("Please enter a story:");
     return storyString;
  }
 
@@ -44,33 +43,33 @@ function main() {
 function encodeStory(storyString) {
     let string = storyString;
     story = spaceMarks(story)
-    return story, string;
+    return story;
+
 } 
- /* spaceMarks(story)
+
+/* spaceMarks(story)
  * Splits words in the story array that contain punctuation marks, ensuring punctuation is separated from words.
  * Iterates through each word, checks for punctuation, and splits accordingly.
  * @param story
  * @return story
  */
+
 function spaceMarks(story) {
-//     const marks = ['.','?','!',':',';',','];
-//     text = "";
-//     mark = "";
-//     for (let i = 0; i < story.length; i++) {
-//     text = story[i];
-//     mark = text.charAt(text.length - 1);
-//     if(marks.indexOf(mark) !== -1) {
-//         story.splice(i, mark)
-//         story[i] = story[i].slice(0, -1);
-//         console.Log(story[i], story[i+1]);
-//     }
-//     else{
-//         continue;
-//     }
-// }
-story = ["My", "dog", "has", "fleas","!"]
+    const marks = ['.','?','!',':',';',',','...'];
+    let text = "";
+    let mark = "";
+       for (let i = 0; i < story.length; i++) {
+        text = story[i];
+        mark = text.charAt(text.length - 1);
+        if (marks.includes(mark)) {
+            story[i] = story[i].slice(0, -1);
+        }
+}
+alert (story)
+    // story = ["once", "upon", "a", "time", ",", "there", "was", "a", "brave", "knight", "."];
     return story;
 }
+
  /* numberedStory = subSpeech(story)
  * declare numberedStory as an empty string
  * for index being set to 0 and being less than story.length count up
@@ -80,7 +79,6 @@ story = ["My", "dog", "has", "fleas","!"]
  * @return numberedStory
  */
 
- numberedStory = subSpeech(story)
 
 function subSpeech(story) {
 numberedStory = "";
@@ -109,20 +107,21 @@ return numberedStory;
 
 /* let the "Word Wizard" know that its the player's turn. */
 function showSpeechList(numberedStory) {
-    let replacements = [];
-    let wordChange = "";
+    // let replacements = [];
+    // let wordChange = "";
     let changeCount = prompt(numberedStory + "\nHow many words would you like to change?");
-    let originalWord = "";
-    let speechPart = "";
-    for (let i = 0; i < changeCount; i++) {
-        wordChange = prompt("What word would you like to change?" + numberedStory);
-        originalWord = story[wordChange];
-        speechPart = prompt("What part of speech is the word '" + originalWord + "'?");
-        replacements.push(wordChange);
-        story[wordChange] = speechPart;
-    }
+    // let originalWord = "";
+    // let speechPart = "";
+    // for (let i = 0; i < changeCount; i++) {
+    //     wordChange = prompt("What word would you like to change?" + numberedStory);
+    //     originalWord = story[wordChange];
+    //     speechPart = prompt("What part of speech is the word '" + originalWord + "'?");
+    //     replacements.push(wordChange);
+    //     story[wordChange] = speechPart;
+    // }
     alert(changeCount + " words will be replaced in the next step.");
-    return replacements;
+    // return replacements;
+
 }
 
 /* rebuildStory(replacements)
