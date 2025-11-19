@@ -9,6 +9,7 @@ var story = [];
 var storyWithSpaces = "";
 var storyString = "";
 var numberedStory = "";
+var string = "";
 
 function main() {
     getStory();
@@ -16,10 +17,10 @@ function main() {
     numberedStory = subSpeech(story);
     let replacements = showSpeechList(numberedStory);
     alert("Now, let's rebuild your story with the new words!");
-    // rebuildStory(replacements);
-    // storyWithSpaces = story.join(" ");
-    // showStory(string);
-    // alert("Thank you for playing Mad Libs! The process is now complete.");
+    rebuildStory(replacements);
+    storyWithSpaces = story.join(" ");
+    showStory(string);
+    alert("Thank you for playing Mad Libs! The process is now complete.");
 }
 
  /* getStory()
@@ -31,6 +32,7 @@ function main() {
  function getStory() {
     storyString = prompt("Please enter a story:");
     return storyString;
+    
  }
 
  /* encodeStory(storyString)
@@ -41,10 +43,11 @@ function main() {
  * @return story, string
  */
 function encodeStory(storyString) {
-    let string = storyString;
-    story = spaceMarks(story)
+    string = storyString;
+    story = storyString.split(" ");
+    console.log(story.toString());
+    story = spaceMarks(story);
     return story;
-
 } 
 
 /* spaceMarks(story)
@@ -57,16 +60,18 @@ function encodeStory(storyString) {
 function spaceMarks(story) {
     const marks = ['.','?','!',':',';',',','...'];
     let text = "";
+    let split = [];
     let mark = "";
        for (let i = 0; i < story.length; i++) {
         text = story[i];
         mark = text.charAt(text.length - 1);
         if (marks.includes(mark)) {
-            story[i] = story[i].slice(0, -1);
+            console.log("mark =" + mark);
+            split = story[i].slice(0, -1);
+            story.splice(i, 1, split, mark);
+            i++;
         }
-}
-alert (story)
-    // story = ["once", "upon", "a", "time", ",", "there", "was", "a", "brave", "knight", "."];
+    }
     return story;
 }
 
@@ -107,20 +112,21 @@ return numberedStory;
 
 /* let the "Word Wizard" know that its the player's turn. */
 function showSpeechList(numberedStory) {
-    // let replacements = [];
-    // let wordChange = "";
+    replacements = [];
+    let wordChange = "";
     let changeCount = prompt(numberedStory + "\nHow many words would you like to change?");
-    // let originalWord = "";
-    // let speechPart = "";
-    // for (let i = 0; i < changeCount; i++) {
-    //     wordChange = prompt("What word would you like to change?" + numberedStory);
-    //     originalWord = story[wordChange];
-    //     speechPart = prompt("What part of speech is the word '" + originalWord + "'?");
-    //     replacements.push(wordChange);
-    //     story[wordChange] = speechPart;
-    // }
+    let originalWord = "";
+    let speechPart = "";
+    for (let i = 0; i < changeCount; i++) {
+        wordChange = prompt("What word would you like to change?" + numberedStory);
+        originalWord = story[wordChange];
+        speechPart = prompt("What part of speech is the word '" + originalWord + "'?");
+        replacements.push(wordChange);
+        story[wordChange] = speechPart;
+    }
+    console.log(story.toString());
     alert(changeCount + " words will be replaced in the next step.");
-    // return replacements;
+    return replacements;
 
 }
 
