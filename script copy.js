@@ -10,27 +10,17 @@ var storyWithSpaces = "";
 var storyString = "";
 var numberedStory = "";
 var string = "";
-var board = document.getElementById("buildBoard");
 
 function main() {
-    let start = document.getElementById("start")
-    start.remove();
-    let storyBox = document.createElement("textarea");
-    storyBox.value = "Paste your story here!";
-    board.appendChild(storyBox); 
-    let save = document.createElement("button");
-    save.innerHTML="Save Story";
-    save.addEventListener("click", getStory);
-    board.appendChild(save);
-    // getStory();
-    // encodeStory(storyString);
-    // numberedStory = subSpeech(story);
-    // let replacements = showSpeechList(numberedStory);
-    // alert("Now, let's rebuild your story with the new words!");
-    // rebuildStory(replacements);
-    // storyWithSpaces = story.join(" ");
-    // showStory(string);
-    // alert("Thank you for playing Mad Libs! The process is now complete.");
+    getStory();
+    encodeStory(storyString);
+    numberedStory = subSpeech(story);
+    let replacements = showSpeechList(numberedStory);
+    alert("Now, let's rebuild your story with the new words!");
+    rebuildStory(replacements);
+    storyWithSpaces = story.join(" ");
+    showStory(string);
+    alert("Thank you for playing Mad Libs! The process is now complete.");
 }
 
  /* getStory()
@@ -40,11 +30,8 @@ function main() {
   */
 
  function getStory() {
-    let inputBox = document.getElementsByTagName("textarea");
-    story=inputBox[0].value;
-    alert(story);
-    // storyString = prompt("Please enter a story:");
-    // return storyString;
+    storyString = prompt("Please enter a story:");
+    return storyString;
     
  }
 
