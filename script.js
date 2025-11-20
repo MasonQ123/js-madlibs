@@ -138,8 +138,9 @@ function showSpeechList(numberedStory) {
 * @return replacements
 */
 function rebuildStory(replacements) {
-    let newWord = prompt("Give me some words that correspond with the parts of speech.");
+    let newWord = confirm("Give me some words that correspond with the parts of speech. Are you ready?");
     for (let i = 0; i < replacements.length; i++) {
+        newWord = prompt(story[replacements[i]]);
         story[replacements[i]] = newWord;
     }
     return replacements;
