@@ -11,22 +11,19 @@ var storyString = "";
 var numberedStory = "";
 var string = "";
 var board = document.getElementById("buildBoard");
+var storyBox;
+var save;
 
 function main() {
     let start = document.getElementById("start")
     start.remove();
-    let storyBox = document.createElement("textarea");
+    storyBox = document.createElement("textarea");
     storyBox.value = "Paste your story here!";
     board.appendChild(storyBox); 
-    let save = document.createElement("button");
+    save = document.createElement("button");
     save.innerHTML="Save Story";
     save.addEventListener("click", getStory);
     board.appendChild(save);
-    // getStory();
-    // encodeStory(storyString);
-    // numberedStory = subSpeech(story);
-    // let replacements = showSpeechList(numberedStory);
-    // alert("Now, let's rebuild your story with the new words!");
     // rebuildStory(replacements);
     // storyWithSpaces = story.join(" ");
     // showStory(string);
@@ -41,11 +38,9 @@ function main() {
 
  function getStory() {
     let inputBox = document.getElementsByTagName("textarea");
-    story=inputBox[0].value;
-    alert(story);
-    // storyString = prompt("Please enter a story:");
-    // return storyString;
-    
+    storyString=inputBox[0].value;
+    encodeStory(storyString);
+    storyBox.remove();
  }
 
  /* encodeStory(storyString)
@@ -56,11 +51,8 @@ function main() {
  * @return story, string
  */
 function encodeStory(storyString) {
-    string = storyString;
     story = storyString.split(" ");
-    console.log(story.toString());
-    story = spaceMarks(story);
-    return story;
+    spaceMarks(story);
 } 
 
 /* spaceMarks(story)
@@ -79,13 +71,13 @@ function spaceMarks(story) {
         text = story[i];
         mark = text.charAt(text.length - 1);
         if (marks.includes(mark)) {
-            console.log("mark =" + mark);
             split = story[i].slice(0, -1);
             story.splice(i, 1, split, mark);
             i++;
         }
     }
-    return story;
+    console.log(story.toString());
+    subSpeech();
 }
 
  /* numberedStory = subSpeech(story)
@@ -98,12 +90,14 @@ function spaceMarks(story) {
  */
 
 
-function subSpeech(story) {
-numberedStory = "";
-for (let i = 0; i < story.length; i++) {
-    numberedStory += story[i] + "[" + i + "] ";
-}
-return numberedStory;
+function subSpeech() {
+    for (let i = 0; i < story.length; i++) {
+        numberedStory += story[i] + "[" + i + "] ";
+    }
+    storyBox.remove();
+     makePopUp("Now, let's rebuild your story with the new words!");
+     showSpeechList();
+     console.log("called once")
 }
 
 
@@ -124,25 +118,32 @@ return numberedStory;
 */
 
 /* let the "Word Wizard" know that its the player's turn. */
-function showSpeechList(numberedStory) {
+function showSpeechList() {
+    word = 1;
+    console.log(numberedStory);
+    save.remove();
     replacements = [];
-    let wordChange = "";
     let changeCount = prompt(numberedStory + "\nHow many words would you like to change?");
-    let originalWord = "";
-    let speechPart = "";
-    for (let i = 0; i < changeCount; i++) {
-        wordChange = prompt("What word would you like to change?" + numberedStory);
+    parseInt(changeCount);
+    chooseWords(word, changeCount);
+}
+
+function chooseWords(word, words){
+    if(word <= words) {
+        wordChange = prompt("Word " + word + " of " + words + ":which word would you like to change?" + numberedStory);
         originalWord = story[wordChange];
         speechPart = prompt("What part of speech is the word '" + originalWord + "'?");
         replacements.push(wordChange);
         story[wordChange] = speechPart;
+        word++;
+        console.log("replaced" + word + "time(s)");
+        chooseWords(word, words);
+        }
+    else{
+        makePopUp(changeCount + " words will be replaced in the next step.");
+        
     }
-    console.log(story.toString());
-    alert(changeCount + " words will be replaced in the next step.");
-    return replacements;
-
 }
-
 /* rebuildStory(replacements)
 * alert user for words that correspond with the parts of speech, declare newWord
 * prompt the user for a new word to replace story[replacements[i]], assign the input to story[replacements[i]]
@@ -168,6 +169,22 @@ function rebuildStory(replacements) {
 */
 function showStory(string) {
     alert("This was your original story:\n\n" + string + "\n\nAnd here is your madlibbed story:\n\n" + storyWithSpaces);
+}
+
+function makePopUp(message) {
+    let popUp = document.createElement("div")
+    popUp.id = "popUp";
+    let messageBox = document.createElement("p");
+    messageBox.innerHTML = message;
+    popUp.appendChild(messageBox); 
+    console.log("adding event listener")
+    popUp.addEventListener("click", closePopUp);
+    document.body.appendChild(popUp);
+
+}
+
+function closePopUp(){
+document.getElementById("popUp").remove();
 }
 /* thank user and process finished. */
 
