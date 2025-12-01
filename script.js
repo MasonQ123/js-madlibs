@@ -13,6 +13,10 @@ var string = "";
 var board = document.getElementById("buildBoard");
 var storyBox;
 var save;
+var changeCount;
+var target = null;
+var replacements;
+
 
 function main() {
     let start = document.getElementById("start")
@@ -24,7 +28,7 @@ function main() {
     save.innerHTML="Save Story";
     save.addEventListener("click", getStory);
     board.appendChild(save);
-    // rebuildStory(replacements);
+    rebuildStory();
     // storyWithSpaces = story.join(" ");
     // showStory(string);
     // alert("Thank you for playing Mad Libs! The process is now complete.");
@@ -95,9 +99,7 @@ function subSpeech() {
         numberedStory += story[i] + "[" + i + "] ";
     }
     storyBox.remove();
-     makePopUp("Now, let's rebuild your story with the new words!");
-     showSpeechList();
-     console.log("called once")
+     makePopUp("Now, let's rebuild your story with the new words!", showSpeechList());
 }
 
 
@@ -123,7 +125,7 @@ function showSpeechList() {
     console.log(numberedStory);
     save.remove();
     replacements = [];
-    let changeCount = prompt(numberedStory + "\nHow many words would you like to change?");
+    changeCount = prompt(numberedStory + "\nHow many words would you like to change?");
     parseInt(changeCount);
     chooseWords(word, changeCount);
 }
@@ -151,13 +153,19 @@ function chooseWords(word, words){
 * @param replacements
 * @return replacements
 */
-function rebuildStory(replacements) {
-    let newWord = confirm("Give me some words that correspond with the parts of speech. Are you ready?");
-    for (let i = 0; i < replacements.length; i++) {
-        newWord = prompt(story[replacements[i]]);
-        story[replacements[i]] = newWord;
+function rebuildStory() {
+    let newWord = makePopUp("Give me some words that correspond with the parts of speech. Are you ready?");
+    let i = 1;
+    if (i < replacements.length) {
+        getReplacement(i, newWord);
+        i++;
     }
-    return replacements;
+    rebuildStory();
+}
+
+function getReplacement(i, newWord) {
+    newWord = prompt(story[replacements[i]]);
+    story[replacements[i]] = newWord;
 }
 /* storyWithSpaces: join the madlibbed story array into a single string with spaces */
 
@@ -171,20 +179,26 @@ function showStory(string) {
     alert("This was your original story:\n\n" + string + "\n\nAnd here is your madlibbed story:\n\n" + storyWithSpaces);
 }
 
-function makePopUp(message) {
+function makePopUp(message, target) {
+      target = typeof target !== "undefined" ? target : null;
     let popUp = document.createElement("div")
     popUp.id = "popUp";
     let messageBox = document.createElement("p");
     messageBox.innerHTML = message;
     popUp.appendChild(messageBox); 
-    console.log("adding event listener")
-    popUp.addEventListener("click", closePopUp);
+     popUp.addEventListener("click",
+         function(){
+             closePopUp(target)
+         });
     document.body.appendChild(popUp);
-
 }
 
-function closePopUp(){
+function closePopUp(target){
 document.getElementById("popUp").remove();
+if(target != null){
+target();
+target = null;
+}
 }
 /* thank user and process finished. */
 
