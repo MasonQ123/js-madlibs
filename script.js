@@ -14,21 +14,21 @@ var board = document.getElementById("buildBoard");
 var storyBox;
 var save;
 var changeCount;
-var target = null;
 var replacements;
-
+var inputData;
 
 function main() {
     let start = document.getElementById("start")
     start.remove();
-    storyBox = document.createElement("textarea");
-    storyBox.value = "Paste your story here!";
-    board.appendChild(storyBox); 
-    save = document.createElement("button");
-    save.innerHTML="Save Story";
-    save.addEventListener("click", getStory);
-    board.appendChild(save);
-    rebuildStory();
+    getInput("Paste your story here!");
+    storyBox = inputData;
+    // storyBox = document.createElement("textarea");
+    // storyBox.value = "Paste your story here!";
+    // board.appendChild(storyBox); 
+    // save = document.createElement("button");
+    // save.innerHTML="Save Story";
+    // save.addEventListener("click", getStory);
+    // board.appendChild(save);
     // storyWithSpaces = story.join(" ");
     // showStory(string);
     // alert("Thank you for playing Mad Libs! The process is now complete.");
@@ -99,7 +99,7 @@ function subSpeech() {
         numberedStory += story[i] + "[" + i + "] ";
     }
     storyBox.remove();
-     makePopUp("Now, let's rebuild your story with the new words!", showSpeechList());
+    //  makePopUp("Now, let's rebuild your story with the new words!", showSpeechList());
 }
 
 
@@ -125,7 +125,9 @@ function showSpeechList() {
     console.log(numberedStory);
     save.remove();
     replacements = [];
-    changeCount = prompt(numberedStory + "\nHow many words would you like to change?");
+    let message = numberedStory + "\nHow many words would you like to change?"
+    getInput(message);
+    changeCount = inputData
     parseInt(changeCount);
     chooseWords(word, changeCount);
 }
@@ -176,29 +178,50 @@ function getReplacement(i, newWord) {
 * @return none
 */
 function showStory(string) {
-    alert("This was your original story:\n\n" + string + "\n\nAnd here is your madlibbed story:\n\n" + storyWithSpaces);
+    // alert("This was your original story:\n\n" + string + "\n\nAnd here is your madlibbed story:\n\n" + storyWithSpaces);
 }
 
-function makePopUp(message, target) {
-      target = typeof target !== "undefined" ? target : null;
-    let popUp = document.createElement("div")
+function makePopUp(message) {
+    let popUp = document.createElement("div");
     popUp.id = "popUp";
     let messageBox = document.createElement("p");
+    let closeButton = document.createElement("button");
+    closeButton.innerHTML = ("Okay");
+    closeButton.id = "closeButton";
     messageBox.innerHTML = message;
     popUp.appendChild(messageBox); 
-     popUp.addEventListener("click",
-         function(){
-             closePopUp(target)
-         });
+    popUp.appendChild(closeButton);
+    console.log("adding event listener");
+    closeButton.addEventListener("click", closePopUp);
+    document.body.appendChild(popUp);
+
+}
+
+function getInput(message) {
+    let popUp = document.createElement("div")
+    popUp.id = "popUp";
+    let inputBox = document.createElement("input");
+    inputBox.innerHTML = message;
+    let inputButton = document.createElement("button");
+    inputBox.id = "inputBox";
+    inputButton.id = "inputButton";
+    inputButton.innerHTML = "Submit";
+    inputButton.addEventListener("click", tfunc);
+    inputBox.appendChild(inputButton);
+    popUp.appendChild(inputBox); 
+    console.log("showing input box");
     document.body.appendChild(popUp);
 }
 
-function closePopUp(target){
-document.getElementById("popUp").remove();
-if(target != null){
-target();
-target = null;
+function tfunc() {
+    inputBox = document.getElementById("inputBox");
+    inputData = inputBox.value;
+    console.log(inputData);
+    closePopUp();
 }
+
+function closePopUp(){
+document.getElementById("popUp").remove();
 }
 /* thank user and process finished. */
 
