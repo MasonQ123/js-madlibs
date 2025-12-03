@@ -61,6 +61,10 @@ text-align:center;
   font-size:14pt;
 }
 
+#popUp p {
+  color:blue;
+  padding-bottom:.5em;
+}
 textarea{
   width: 40%;
   height: 500px;

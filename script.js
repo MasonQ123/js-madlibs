@@ -123,22 +123,35 @@ function nextWord(){
     word++;
     if (word <= words) chooseWords();
     else{
-        makePopUp("Now we will get the parts of speech for these " + words + " words.", getPartsOfSpeech);
+        message = "Now we will get the parts of speech for these " + words + " words ";
+        getInput(message,0,wordsToReplace);
     }
 }
 
-/* getPartsofSpeech
+/* Configures variables for event-driven loop */
+function wordsToReplace(){
+    words = replacements.length;
+    word = 0 ;
+    replaceWords();
+}
+/* User interaction for loop */
+function replaceWords(){
+    message = "What part of speech is <strong>" + story[replacements[word]] + "</strong>?";
+    getInput(message,"noun,plural noun,Proper Noun,verb,adjective,adverb,preposition,",nextReplacement)
+}
+
+/* extReplacement
  * replaces chosen story words based on indices in replacements array
  * with parts of speech for those words in story
  */
-function getPartsOfSpeech(){
-    word = 0;
-    if(word <= words) {
-        message = "What part of speech is " + story[replacements][word] + "?";
-        getInput(message,"noun, verb, etc",nextPOSWord)
-    }
+function nextReplacement(){
+    console.log("Replacing "+ story[replacements[word]] + " with " + inputData);
+    story[replacements[word]] = inputData;
+    word++;
+    if (word < replacements.length) replaceWords();
     else{
-        makePopUp(words + " words will be replaced by your player(s). Go get them!", rebuildStory);
+        message = words + " words will be replaced by your player(s). Go get them!";
+        getInput(message,"Click the button when the player is here.",rebuildStory);
     }
 }
 
@@ -184,49 +197,38 @@ function showStory(string) {
     // alert("This was your original story:\n\n" + string + "\n\nAnd here is your madlibbed story:\n\n" + storyWithSpaces);
 }
 
-function makePopUp(message) {
-    let popUp = document.createElement("div");
+function getInput(instruct, message, target) {
+
+    let popUp = document.createElement("div")
     popUp.id = "popUp";
-    let messageBox = document.createElement("p");
-    let closeButton = document.createElement("button");
-    closeButton.innerHTML = ("Okay");
-    closeButton.id = "closeButton";
-    messageBox.innerHTML = message;
-    popUp.appendChild(messageBox); 
-    popUp.appendChild(closeButton);
-    console.log("adding event listener");
-    closeButton.addEventListener("click", closePopUp);
+    let instructions = document.createElement("p");
+    instructions.innerHTML = instruct;
+    popUp.appendChild(instructions); 
+    if (message != "0"){
+        let inputBox = document.createElement("input");
+        inputBox.value = message;
+        inputBox.id = "inputBox";
+        popUp.appendChild(inputBox); 
+    }
+    let inputButton = document.createElement("button");
+    inputButton.id = "inputButton";
+    inputButton.innerHTML = "Done";
+    inputButton.addEventListener("click", function(){
+        closePopUp(target);
+    }, false);
+    popUp.appendChild(inputButton);
     if (!document.getElementById("popUp")){
         document.body.appendChild(popUp);
     }
 }
 
-function getInput(instruct, message, target) {
-    let popUp = document.createElement("div")
-    popUp.id = "popUp";
-    let instructions = document.createElement("p");
-    instructions.innerHTML = instruct;
-    let inputBox = document.createElement("input");
-    inputBox.value = message;
-    let inputButton = document.createElement("button");
-    inputBox.id = "inputBox";
-    inputButton.id = "inputButton";
-    inputButton.innerHTML = "Submit";
-    inputButton.addEventListener("click", function(){
-        closePopUp(target);
-    }, false);
-    popUp.appendChild(instructions); 
-    popUp.appendChild(inputBox); 
-    popUp.appendChild(inputButton);
-    document.body.appendChild(popUp);
-}
-
 function closePopUp(target){
-    inputBox = document.getElementById("inputBox");
-    inputData = inputBox.value;
-    console.log(inputData);
+    if (document.getElementById("inputBox")){
+        inputBox = document.getElementById("inputBox");
+        inputData = inputBox.value;
+        console.log(inputData);
+    }
     document.getElementById("popUp").remove();
     target();
 }
 /* thank user and process finished. */
-
