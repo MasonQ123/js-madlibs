@@ -16,12 +16,17 @@ var save;
 var changeCount;
 var replacements;
 var inputData;
+var message; 
 
 function main() {
     let start = document.getElementById("start")
     start.remove();
-    getInput("Paste your story here!");
+    getInput("Paste your story here!", pickWords());
+}
+function pickWords() {
     storyBox = inputData;
+    encodeStory(storyString);
+}
     // storyBox = document.createElement("textarea");
     // storyBox.value = "Paste your story here!";
     // board.appendChild(storyBox); 
@@ -32,7 +37,6 @@ function main() {
     // storyWithSpaces = story.join(" ");
     // showStory(string);
     // alert("Thank you for playing Mad Libs! The process is now complete.");
-}
 
  /* getStory()
   * user input is stored as a new variable, that variable is returned.
@@ -43,7 +47,7 @@ function main() {
  function getStory() {
     let inputBox = document.getElementsByTagName("textarea");
     storyString=inputBox[0].value;
-    encodeStory(storyString);
+    
     storyBox.remove();
  }
 
@@ -125,18 +129,18 @@ function showSpeechList() {
     console.log(numberedStory);
     save.remove();
     replacements = [];
-    let message = numberedStory + "\nHow many words would you like to change?"
-    getInput(message);
-    changeCount = inputData
-    parseInt(changeCount);
+    message = numberedStory + "\nHow many words would you like to change?"
+    getInput(message, next());    
+    changeCount = parseInt(inputData);
     chooseWords(word, changeCount);
 }
 
 function chooseWords(word, words){
     if(word <= words) {
-        wordChange = prompt("Word " + word + " of " + words + ":which word would you like to change?" + numberedStory);
-        originalWord = story[wordChange];
-        speechPart = prompt("What part of speech is the word '" + originalWord + "'?");
+         message = numberedStory + "Word " + word + " of " + words + ":which word would you like to change?" + numberedStory;
+        // wordChange = prompt("Word " + word + " of " + words + ":which word would you like to change?" + numberedStory);
+        // originalWord = story[wordChange];
+        // speechPart = prompt("What part of speech is the word '" + originalWord + "'?");
         replacements.push(wordChange);
         story[wordChange] = speechPart;
         word++;
@@ -197,31 +201,30 @@ function makePopUp(message) {
 
 }
 
-function getInput(message) {
+function getInput(message, target) {
     let popUp = document.createElement("div")
     popUp.id = "popUp";
     let inputBox = document.createElement("input");
-    inputBox.innerHTML = message;
+    inputBox.value = message;
     let inputButton = document.createElement("button");
     inputBox.id = "inputBox";
     inputButton.id = "inputButton";
     inputButton.innerHTML = "Submit";
-    inputButton.addEventListener("click", tfunc);
-    inputBox.appendChild(inputButton);
+    inputButton.addEventListener("click", function(){
+        closePopUp(target);
+    }, false);
     popUp.appendChild(inputBox); 
+    popUp.appendChild(inputButton);
     console.log("showing input box");
     document.body.appendChild(popUp);
 }
 
-function tfunc() {
+function closePopUp(target){
     inputBox = document.getElementById("inputBox");
     inputData = inputBox.value;
     console.log(inputData);
-    closePopUp();
-}
-
-function closePopUp(){
-document.getElementById("popUp").remove();
+    document.getElementById("popUp").remove();
+    target;
 }
 /* thank user and process finished. */
 

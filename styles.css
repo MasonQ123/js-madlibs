@@ -48,7 +48,6 @@ border-radius: 25px;
 }
 
 input{
-position:absolute;
 width:80%;
 height:300px;
 padding: 50px;
@@ -72,12 +71,9 @@ textarea p{
   color:black;
 }
 
-#popup{
-  z-index: -1;
-  position:absolute
-}
-
 #inputButton{
-  z-index: 2;
-  position:absolute
+  padding: 5px 50px;
+  height: 3em;
+  font-size: 32pt;
+  margin-top: 10px;
 }
