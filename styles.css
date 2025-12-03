@@ -34,15 +34,15 @@ button:hover{
   width:10em;
 }
 
-#popUp{
-position:absolute;
+input {
 width:80%;
 padding: 50px;
 border: 2px solid black;
 margin:auto;
 border-color:rgb(235, 120, 120);
 background-color: white;
-color: #d90d0d;
+color: black;
+font-size:14pt;
 border-radius: 25px;
 top:220px;
 }
@@ -50,7 +50,6 @@ top:220px;
 #popUp{
   left:5%;
   width:80%;
-  height:300px;
   padding: 50px;
   border: 2px solid black;
   margin:auto;

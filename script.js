@@ -26,7 +26,7 @@ var word;
 function main() {
     let start = document.getElementById("start")
     start.remove();
-    getInput("Paste your story here!", encodeStory);
+    getInput("Paste your story below:","My dog has fleas!",encodeStory);
 }
 
  /* encodeStory(storyString)
@@ -77,12 +77,6 @@ function subSpeech() {
     for (let i = 0; i < story.length; i++) {
         numberedStory += story[i] + "[" + i + "] ";
     }
-    let storyBox = document.createElement("div");
-    let numStory = document.createElement("p")
-    numStory.innerHTML=numberedStory;
-    storyBox.id="storyBox";
-    storyBox.appendChild(numStory);
-    board.appendChild(storyBox);
     showSpeechList()
 }
 
@@ -104,18 +98,18 @@ function subSpeech() {
 */
 /* let the "Word Wizard" know that its the player's turn. */
 function showSpeechList() {
-    // console.log(numberedStory);
     replacements = [];
     message = "How many words would you like to change?"
-    getInput(message, chooseWords);    
+    getInput(message,"",chooseWords);    
 }
 
 function chooseWords(){
     words = parseInt(inputData);
+    console.log(words + " words to change.");
     word = 0;
     if(word <= words) {
-        message = numberedStory + "Word " + word + " of " + words + ":which word would you like to change?" + numberedStory;
-        getInput(message, nextWord);
+        message = numberedStory + "<br><br><hr><br>Word " + word + " of " + words + ": which word would you like to change?";
+        getInput(message,word,nextWord);
     }
     else{
         makePopUp("Now we will get the parts of speech for these " + words + " words.", getPartsOfSpeech);
@@ -139,7 +133,7 @@ function getPartsOfSpeech(){
     word = 0;
     if(word <= words) {
         message = "What part of speech is " + story[replacements][word] + "?";
-        getInput(message, nextPOSWord)
+        getInput(message,"noun, verb, etc",nextPOSWord)
     }
     else{
         makePopUp(words + " words will be replaced by your player(s). Go get them!", rebuildStory);
@@ -149,7 +143,7 @@ function getPartsOfSpeech(){
 /* nextPOSWord 
  * obtains the next Part of Speech (POS) for the next word choice (word) up to the number of words (words)
  */
-function nextWord(){
+function nextPOSWord(){
     story[word] = inputData;
     word++;
     getPartsOfSpeech()
@@ -200,13 +194,16 @@ function makePopUp(message) {
     popUp.appendChild(closeButton);
     console.log("adding event listener");
     closeButton.addEventListener("click", closePopUp);
-    document.body.appendChild(popUp);
-
+    if (!document.getElementById("popUp")){
+        document.body.appendChild(popUp);
+    }
 }
 
-function getInput(message, target) {
+function getInput(instruct, message, target) {
     let popUp = document.createElement("div")
     popUp.id = "popUp";
+    let instructions = document.createElement("p");
+    instructions.innerHTML = instruct;
     let inputBox = document.createElement("input");
     inputBox.value = message;
     let inputButton = document.createElement("button");
@@ -216,6 +213,7 @@ function getInput(message, target) {
     inputButton.addEventListener("click", function(){
         closePopUp(target);
     }, false);
+    popUp.appendChild(instructions); 
     popUp.appendChild(inputBox); 
     popUp.appendChild(inputButton);
     document.body.appendChild(popUp);
