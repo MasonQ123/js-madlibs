@@ -45,6 +45,7 @@ color: black;
 font-size:14pt;
 border-radius: 25px;
 top:220px;
+text-align:center;
 }
 
 #popUp{
@@ -57,6 +58,7 @@ top:220px;
   background-color: white;
   color: #d90d0d;
   border-radius: 25px;
+  font-size:14pt;
 }
 
 textarea{

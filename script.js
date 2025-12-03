@@ -17,7 +17,7 @@ var replacements;
 var inputData;
 var message; 
 var words;
-var word;
+var word = 1;
 /* main 
  * opens an input box and asks for the story 
  * chains to text processing functions
@@ -100,20 +100,19 @@ function subSpeech() {
 function showSpeechList() {
     replacements = [];
     message = "How many words would you like to change?"
-    getInput(message,"",chooseWords);    
+    word = 1;
+    getInput(message,"",wordsToChange);    
+}
+
+function wordsToChange(){
+    words = parseInt(inputData);
+    console.log(words + " words to change.");
+    chooseWords();
 }
 
 function chooseWords(){
-    words = parseInt(inputData);
-    console.log(words + " words to change.");
-    word = 0;
-    if(word <= words) {
-        message = numberedStory + "<br><br><hr><br>Word " + word + " of " + words + ": which word would you like to change?";
-        getInput(message,word,nextWord);
-    }
-    else{
-        makePopUp("Now we will get the parts of speech for these " + words + " words.", getPartsOfSpeech);
-    }
+    message = numberedStory + "<br><br><hr><br>Word " + word + " of " + words + ": which word would you like to change?";
+    getInput(message,"",nextWord);
 }
 
 /* nextWord 
@@ -122,7 +121,10 @@ function chooseWords(){
 function nextWord(){
     replacements.push(inputData);
     word++;
-    chooseWords();
+    if (word <= words) chooseWords();
+    else{
+        makePopUp("Now we will get the parts of speech for these " + words + " words.", getPartsOfSpeech);
+    }
 }
 
 /* getPartsofSpeech
