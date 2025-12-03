@@ -8,13 +8,13 @@
 var story = [];
 var storyString;
 var numberedStory = "";
-var string = "";
+var string;
 var board = document.getElementById("buildBoard");
 var storyBox;
 var save;
 var changeCount;
 var replacements;
-var inputData = "default input data";
+var inputData;
 var message; 
 var words;
 var word;
@@ -37,9 +37,9 @@ function main() {
  * @return story, string
  */
 function encodeStory() {
-    storyString = inputData;
+    storyString = inputData; // creates a copy of the original, not used below
     story = inputData.split(" ");
-    spaceMarks(story);
+    spaceMarks();
 } 
 
 /* spaceMarks(story)
@@ -62,7 +62,6 @@ function spaceMarks() {
             i++;
         }
     }
-    //console.log(story.toString());
     subSpeech();
 }
 
@@ -78,7 +77,13 @@ function subSpeech() {
     for (let i = 0; i < story.length; i++) {
         numberedStory += story[i] + "[" + i + "] ";
     }
-    makePopUp("Now, let's rebuild your story with the new words!", showSpeechList);
+    let storyBox = document.createElement("div");
+    let numStory = document.createElement("p")
+    numStory.innerHTML=numberedStory;
+    storyBox.id="storyBox";
+    storyBox.appendChild(numStory);
+    board.appendChild(storyBox);
+    showSpeechList()
 }
 
 
@@ -101,7 +106,7 @@ function subSpeech() {
 function showSpeechList() {
     // console.log(numberedStory);
     replacements = [];
-    message = numberedStory + "\nHow many words would you like to change?"
+    message = "How many words would you like to change?"
     getInput(message, chooseWords);    
 }
 
@@ -110,7 +115,7 @@ function chooseWords(){
     word = 0;
     if(word <= words) {
         message = numberedStory + "Word " + word + " of " + words + ":which word would you like to change?" + numberedStory;
-        getInput(message, nextWord)
+        getInput(message, nextWord);
     }
     else{
         makePopUp("Now we will get the parts of speech for these " + words + " words.", getPartsOfSpeech);
@@ -221,7 +226,6 @@ function closePopUp(target){
     inputData = inputBox.value;
     console.log(inputData);
     document.getElementById("popUp").remove();
-    console.log("Calling " + target)
     target();
 }
 /* thank user and process finished. */

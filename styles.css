@@ -37,7 +37,6 @@ button:hover{
 #popUp{
 position:absolute;
 width:80%;
-height:500px;
 padding: 50px;
 border: 2px solid black;
 margin:auto;
@@ -45,18 +44,20 @@ border-color:rgb(235, 120, 120);
 background-color: white;
 color: #d90d0d;
 border-radius: 25px;
+top:220px;
 }
 
-input{
-width:80%;
-height:300px;
-padding: 50px;
-border: 2px solid black;
-margin:auto;
-border-color:rgb(235, 120, 120);
-background-color: white;
-color: #d90d0d;
-border-radius: 25px;
+#popUp{
+  left:5%;
+  width:80%;
+  height:300px;
+  padding: 50px;
+  border: 2px solid black;
+  margin:auto;
+  border-color:rgb(235, 120, 120);
+  background-color: white;
+  color: #d90d0d;
+  border-radius: 25px;
 }
 
 textarea{
@@ -76,4 +77,15 @@ textarea p{
   height: 3em;
   font-size: 32pt;
   margin-top: 10px;
+}
+
+#storyBox {
+  position:absolute;
+  left:5%;
+  top:10px;
+  width:80%;
+  border:2px solid red;
+  background:white;
+  border-radius:20px;
+  padding:50px;
 }
