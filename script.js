@@ -18,6 +18,7 @@ var inputData;
 var message; 
 var words;
 var word = 1;
+
 /* main 
  * opens an input box and asks for the story 
  * chains to text processing functions
@@ -151,7 +152,7 @@ function nextReplacement(){
     if (word < replacements.length) replaceWords();
     else{
         message = words + " words will be replaced by your player(s). Go get them!";
-        getInput(message,"Click the button when the player is here.",rebuildStory);
+        getInput(message,"Click the button when the player is here.",welcomePlayer);
     }
 }
 
@@ -171,30 +172,40 @@ function nextPOSWord(){
 * @param replacements
 * @return replacements
 */
-function rebuildStory() {
-    let newWord = makePopUp("Give me some words that correspond with the parts of speech. Are you ready?");
-    let i = 1;
-    if (i < replacements.length) {
-        getReplacement(i, newWord);
+function welcomePlayer() {
+    const now = new Date();
+    const hours = now.getHours;
+    let welcome = "Hi, "
+    //     if (hours < 4) {
+    //     welcome = "Good evening,";
+    // } else if (hours < 12) {
+    //     welcome = "Good morning,";
+    // } else if (hours < 18) {
+    //     welcome = "Good afternoon,";
+    // } else {
+    //     welcome = "Good evening,";
+    // }
+    message = welcome + "you're about to input some words that correspond with the given parts of speech.";
+    getInput(message, "Click the button when you're ready to begin.", rebuildStory);
+}
+
+function rebuildStory(){
+    let i = 0;
+        if (i < replacements.length) {
+        getReplacement(i);
         i++;
+        rebuildStory;
+        message = story[replacements[i]]
     }
-    rebuildStory();
+    else{
+        message = "This was your original story:\n\n" + storyString + "\n\nAnd here is your madlibbed story:\n\n" + story;
+        getInput(message, "Click the button when you're all set.", closePopUp)
+    }
 }
 
-function getReplacement(i, newWord) {
-    newWord = prompt(story[replacements[i]]);
+function getReplacement(i) {
+    let newWord = getInput(message, "Enter the new word", rebuildStory);
     story[replacements[i]] = newWord;
-}
-/* storyWithSpaces: join the madlibbed story array into a single string with spaces */
-
-
-/* showStory(string)
-* Displays the original and modified story to the user
-* @param string
-* @return none
-*/
-function showStory(string) {
-    // alert("This was your original story:\n\n" + string + "\n\nAnd here is your madlibbed story:\n\n" + storyWithSpaces);
 }
 
 function getInput(instruct, message, target) {
