@@ -129,7 +129,7 @@ function nextWord(){
     }
 }
 
-/* Configures variables for event-driven loop */
+/* Configures variables for event-driven replacement loop */
 function wordsToReplace(){
     words = replacements.length;
     word = 0 ;
@@ -141,7 +141,7 @@ function replaceWords(){
     getInput(message,"noun,plural noun,Proper Noun,verb,adjective,adverb,preposition,",nextReplacement)
 }
 
-/* extReplacement
+/* nextReplacement
  * replaces chosen story words based on indices in replacements array
  * with parts of speech for those words in story
  */
@@ -154,15 +154,6 @@ function nextReplacement(){
         message = words + " words will be replaced by your player(s). Go get them!";
         getInput(message,"Click the button when the player is here.",welcomePlayer);
     }
-}
-
-/* nextPOSWord 
- * obtains the next Part of Speech (POS) for the next word choice (word) up to the number of words (words)
- */
-function nextPOSWord(){
-    story[word] = inputData;
-    word++;
-    getPartsOfSpeech()
 }
 
 /* rebuildStory(replacements)
@@ -186,27 +177,63 @@ function welcomePlayer() {
     //     welcome = "Good evening,";
     // }
     message = welcome + "you're about to input some words that correspond with the given parts of speech.";
-    getInput(message, "Click the button when you're ready to begin.", rebuildStory);
+    getInput(message, "Click the button when you're ready to begin.", POSToReplace);
 }
 
-function rebuildStory(){
-    let i = 0;
-        if (i < replacements.length) {
-        getReplacement(i);
-        i++;
-        rebuildStory;
-        message = story[replacements[i]]
-    }
+
+function POSToReplace(){
+    words = replacements.length;
+    word = 0 ;
+    replacePOS();
+}
+
+
+/* User interaction for loop */
+function replacePOS(){
+    message = "Give me a <strong>" + story[replacements[word]] + "</strong>?";
+    getInput(message,"",nextPOS)
+}
+
+/* nextReplacement
+ * replaces chosen story words based on indices in replacements array
+ * with parts of speech for those words in story
+ */
+
+
+
+
+
+function nextPOS(){
+    story[replacements[word]] = inputData;
+    word++;
+    if (word < replacements.length) replacePOS();
     else{
-        message = "This was your original story:\n\n" + storyString + "\n\nAnd here is your madlibbed story:\n\n" + story;
-        getInput(message, "Click the button when you're all set.", closePopUp)
+        message = "Here is your new story: " + story.join(" "); + " and this was the original: " + storyString;
+
+        getInput(message,0,);
     }
 }
 
-function getReplacement(i) {
-    let newWord = getInput(message, "Enter the new word", rebuildStory);
-    story[replacements[i]] = newWord;
-}
+
+
+// function rebuildStory(){
+//     let i = 0;
+//         if (i < replacements.length) {
+//         getReplacement(i);
+//         i++;
+//         rebuildStory;
+//         message = story[replacements[i]]
+//     }
+//     else{
+//         message = "This was your original story:\n\n" + storyString + "\n\nAnd here is your madlibbed story:\n\n" + story;
+//         getInput(message, "Click the button when you're all set.", closePopUp)
+//     }
+// }
+
+// function getReplacement(i) {
+//     let newWord = getInput(message, "Enter the new word", rebuildStory);
+//     story[replacements[i]] = newWord;
+// }
 
 function getInput(instruct, message, target) {
 
