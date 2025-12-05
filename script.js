@@ -210,7 +210,7 @@ function nextPOS(){
     else{
         message = "Here is your new story: " + story.join(" "); + " and this was the original: " + storyString;
 
-        getInput(message,0,);
+        getInput(message,0,endProgram);
     }
 }
 
@@ -268,5 +268,13 @@ function closePopUp(target){
     }
     document.getElementById("popUp").remove();
     target();
+}
+
+function endProgram(){
+    const goodbyes = ["Goodbye", "Adiós","Au revoir", "Arrivederci", "Auf Wiedersehen", "Sayōnara", "Zàijiàn", "Do svidaniya", "Adeus", "Ma'a salama", "Namaste", "Annyeonghi gaseyo","Tot ziens"]
+    let goodbye = document.createElement("p");
+    goodbye.appendChild("body");
+    randomBye = Math.floor(Math.random()*13+1);
+    goodbye.innerHTML("")
 }
 /* thank user and process finished. */
